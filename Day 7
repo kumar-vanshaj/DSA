@@ -1,0 +1,88 @@
+
+You are given a string s consisting of lowercase English letters and the special characters: *, #, and %.
+
+Build a new string result by processing s according to the following rules from left to right:
+
+If the letter is a lowercase English letter append it to result.
+A '*' removes the last character from result, if it exists.
+A '#' duplicates the current result and appends it to itself.
+A '%' reverses the current result.
+Return the final string result after processing all characters in s.
+
+ 
+
+Example 1:
+
+Input: s = "a#b%*"
+
+Output: "ba"
+
+Explanation:
+
+i	s[i]	Operation	Current result
+0	'a'	Append 'a'	"a"
+1	'#'	Duplicate result	"aa"
+2	'b'	Append 'b'	"aab"
+3	'%'	Reverse result	"baa"
+4	'*'	Remove the last character	"ba"
+Thus, the final result is "ba".
+
+Example 2:
+
+Input: s = "z*#"
+
+Output: ""
+
+Explanation:
+
+i	s[i]	Operation	Current result
+0	'z'	Append 'z'	"z"
+1	'*'	Remove the last character	""
+2	'#'	Duplicate the string	""
+Thus, the final result is "".
+
+ 
+
+Constraints:
+
+1 <= s.length <= 20
+s consists of only lowercase English letters and special characters *, #, and %.
+
+
+
+
+##SOLUTION
+
+class Solution:
+    """
+        Processes a string based on specific character commands:
+        - Lowercase letters: Added to the result.
+        - '*': Removes the last element (Backspace functionality).
+        - '#': Duplicates the current result set.
+        - '%': Reverses the current result set.
+        
+        Complexity Analysis:
+        - Time: O(N * K), where N is the number of characters and K 
+          is the length of the list during '%' or '#' operations.
+        - Space: O(N) to store the result list.
+        """
+    def processStr(self, s: str) -> str:
+        result = []
+
+        for c in s:
+            if c.islower():
+                result.append(c)
+            elif c == '*':
+                if result:
+                    result.pop()
+            elif c == '#':
+                # Production note, this was the fastest way to do the doubling of the string
+                result += result 
+
+                # Production note: Using the built-in .reverse() method
+                # is the most efficient 'best practice' way to perform
+                # an in-place reversal in Python.
+            elif c == '%':
+                result.reverse()
+        
+        return "".join(result)
